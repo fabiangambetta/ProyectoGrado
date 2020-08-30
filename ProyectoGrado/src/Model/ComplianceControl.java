@@ -6,11 +6,11 @@ public class ComplianceControl {
 	int controlid;
 	String name;
 	ArrayList<ControlConfigurationProperty> controlconfigurationproperties;
-	ArrayList<ComplianceControl> compliancecontrols;
+	ArrayList<ComplianceObjectType> complianceobjecttypes;
 	
 	public ComplianceControl()
 	{
 		controlconfigurationproperties = new ArrayList<ControlConfigurationProperty>();
-		compliancecontrols = new ArrayList<ComplianceControl>();
+		complianceobjecttypes = new ArrayList<ComplianceObjectType>();
 	}
 }

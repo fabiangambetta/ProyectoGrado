@@ -11,9 +11,9 @@ public class ComplianceRequirement {
 	ArrayList<Regulation> regulations;
 	ArrayList<ComplianceObject> complianceobjects;
 	
-	public ComplianceRequirement(ComplianceControl pcontrolcompliance)
+	public ComplianceRequirement()
 	{
-		controlcompliance =  pcontrolcompliance;
+		controlcompliance =  new ComplianceControl();
 		complianceobjecttypes = new ArrayList<ComplianceObjectType>();
 		controlconfigurationpropertiesvalue = new ArrayList<ControlConfigurationPropertyValue>();
 		regulations = new ArrayList<Regulation>();
