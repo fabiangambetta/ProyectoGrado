@@ -27,4 +27,9 @@ public class ComplianceRequirementInfo {
 		return false;
 	}
 
+	public void CleanData() {
+		// TODO Auto-generated method stub
+	    // borra los datos de los eventos de la traza en proceso
+	}
+
 }

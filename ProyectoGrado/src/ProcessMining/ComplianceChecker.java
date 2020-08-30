@@ -18,15 +18,21 @@ import Model.ComplianceRequirement;
 public class ComplianceChecker {
 
 	public static void main(String[] args) {
-		Map<String, ComplianceRequirementInfo> objetoRequerimiento = new HashMap<String, ComplianceRequirementInfo>();
+		Map<String, ArrayList<ComplianceRequirementInfo>> objetoRequerimiento = new HashMap<String, ArrayList<ComplianceRequirementInfo>>();
 		Map<ComplianceRequirement, ArrayList<XTrace>> trazasViolatorias = new HashMap<ComplianceRequirement, ArrayList<XTrace>>();
-
 		ArrayList<ComplianceRequirement> requerimientos = new ArrayList<ComplianceRequirement>();
 		ArrayList<ComplianceRequirementInfo> requerimientsInfo = new ArrayList<ComplianceRequirementInfo>();
 		for (int i = 0; i < requerimientos.size(); i++) {
 			ComplianceRequirementInfo cri = new ComplianceRequirementInfo(requerimientos.get(i));
+			requerimientsInfo.add(cri);
 			for (int j = 0; j < requerimientos.get(i).getComplianceobjects().size(); j++) {
-				objetoRequerimiento.put(requerimientos.get(i).getComplianceobjects().get(j).getName(), cri);
+				ArrayList<ComplianceRequirementInfo> lista= objetoRequerimiento.get(requerimientos.get(i).getComplianceobjects().get(j).getName());
+				if(lista == null)
+				{
+					lista = new ArrayList<ComplianceRequirementInfo>();
+					objetoRequerimiento.put(requerimientos.get(i).getComplianceobjects().get(j).getName(), lista);
+				}
+				lista.add(cri);
 			}
 		}
 
@@ -34,9 +40,11 @@ public class ComplianceChecker {
 		for (XTrace xTrace : log) {
 			for (int i = 0; i < xTrace.size(); i++) {
 				XAttribute message = xTrace.get(i).getAttributes().get("concept:name");
-				ComplianceRequirementInfo cri = objetoRequerimiento.get(message.toString());
-				if (cri != null && !cri.ReadyForEval()) {
-					cri.UpdateInfo(i, xTrace.get(i).getAttributes());
+				ArrayList<ComplianceRequirementInfo>  lista = objetoRequerimiento.get(message.toString());
+				for (ComplianceRequirementInfo cri : lista) {
+					if (cri != null && !cri.ReadyForEval()) {
+						cri.UpdateInfo(i, xTrace.get(i).getAttributes());
+					}
 				}
 			}
 			for (ComplianceRequirementInfo c : requerimientsInfo) {
@@ -49,6 +57,7 @@ public class ComplianceChecker {
 						lista.add(xTrace);
 					}
 				}
+				c.CleanData();
 			}
 		}
 		for (ComplianceRequirement req: requerimientos) {
