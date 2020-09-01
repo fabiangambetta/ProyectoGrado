@@ -1,20 +1,26 @@
-package ProcessMining;
+package ComplianceRequirements;
+
+import java.util.ArrayList;
 
 import org.deckfour.xes.model.XAttributeMap;
+import org.deckfour.xes.model.XEvent;
 
 import Model.ComplianceRequirement;
 
 public class ComplianceRequirementInfo {
 
 	public ComplianceRequirement requerimiento;
-	
+	protected ArrayList<XAttributeMap> eventos; 
+	protected ArrayList<Integer> eventosIndex;
 	public ComplianceRequirementInfo(ComplianceRequirement complianceRequirement) {
-		requerimiento= complianceRequirement;
+		this.requerimiento= complianceRequirement;
+		this.eventos = new ArrayList<XAttributeMap>();
+		this.eventosIndex= new ArrayList<Integer>();
 	}
 
 	public void UpdateInfo(int index, XAttributeMap eventAttributes) {
-		// TODO Auto-generated method stub
-		
+		this.eventos.add(eventAttributes);
+		this.eventosIndex.add(index);
 	}
 
 	public boolean ReadyForEval() {
@@ -28,8 +34,8 @@ public class ComplianceRequirementInfo {
 	}
 
 	public void CleanData() {
-		// TODO Auto-generated method stub
-	    // borra los datos de los eventos de la traza en proceso
+		this.eventos.clear();
+		this.eventosIndex.clear();
 	}
 
 }
