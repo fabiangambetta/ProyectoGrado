@@ -57,7 +57,7 @@ public class ComplianceRequirementInfo {
 			if(event.getAttributes().get("concept:name").toString().equals(mensajesFaltantes.get(i).getValue()))
 			{
 				String param= mensajesFaltantes.get(i).getControlconfigurationproperty().getName();
-				prop= param.substring(8, param.length()-1);
+				prop= param.substring(8, param.length());
 				// asumo nombre de parametro "Message {0}"
 				existe.put("concept:name", i);
 			}
@@ -71,7 +71,7 @@ public class ComplianceRequirementInfo {
 				existe.put("collab:fromParticipant", param.equals("Sender "+prop)? i:-1);
 			}
 		}
-		ArrayList<ControlConfigurationPropertyValue> receiverFaltantes= this.propsFaltantes.get("Sender");
+		ArrayList<ControlConfigurationPropertyValue> receiverFaltantes= this.propsFaltantes.get("Receiver");
 		for (int i = 0; i < receiverFaltantes.size(); i++) {
 			if(event.getAttributes().get("collab:toParticipant").toString().equals(receiverFaltantes.get(i).getValue()))
 			{

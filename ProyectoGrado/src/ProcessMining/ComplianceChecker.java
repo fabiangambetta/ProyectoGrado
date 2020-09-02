@@ -35,22 +35,26 @@ import ComplianceRequirements.Time.Interval.ComplianceRequirementInfoMprecedesNw
 import ComplianceRequirements.Time.PointInTime.ComplianceRequirementInfoMoccursafterD;
 import ComplianceRequirements.Time.PointInTime.ComplianceRequirementInfoMoccursatD;
 import ComplianceRequirements.Time.PointInTime.ComplianceRequirementInfoMoccursbeforeD;
+import Model.ComplianceControl;
+import Model.ComplianceObject;
 import Model.ComplianceRequirement;
+import Model.ControlConfigurationProperty;
+import Model.ControlConfigurationPropertyValue;
 
 public class ComplianceChecker {
 
 	public static void main(String[] args) {
 		Map<String, ArrayList<ComplianceRequirementInfo>> objetoRequerimiento = new HashMap<String, ArrayList<ComplianceRequirementInfo>>();
 		Map<ComplianceRequirement, ArrayList<XTrace>> trazasViolatorias = new HashMap<ComplianceRequirement, ArrayList<XTrace>>();
-		ArrayList<ComplianceRequirement> requerimientos = new ArrayList<ComplianceRequirement>();
+		ArrayList<ComplianceRequirement> requerimientos = CreateMockComplianceRequirements();
 		ArrayList<ComplianceRequirementInfo> requerimientsInfo = new ArrayList<ComplianceRequirementInfo>();
 		for (int i = 0; i < requerimientos.size(); i++) {
 			ComplianceRequirementInfo cri = CreateComplianceRequirementInfo(requerimientos.get(i));
 			requerimientsInfo.add(cri);
 			for (int j = 0; j < requerimientos.get(i).getComplianceobjects().size(); j++) {
-				ArrayList<ComplianceRequirementInfo> lista= objetoRequerimiento.get(requerimientos.get(i).getComplianceobjects().get(j).getName());
-				if(lista == null)
-				{
+				ArrayList<ComplianceRequirementInfo> lista = objetoRequerimiento
+						.get(requerimientos.get(i).getComplianceobjects().get(j).getName());
+				if (lista == null) {
 					lista = new ArrayList<ComplianceRequirementInfo>();
 					objetoRequerimiento.put(requerimientos.get(i).getComplianceobjects().get(j).getName(), lista);
 				}
@@ -58,14 +62,16 @@ public class ComplianceChecker {
 			}
 		}
 
-		XLog log = loadXML("output130.xes");
+		XLog log = loadXML("output118.xes");
 		for (XTrace xTrace : log) {
 			for (int i = 0; i < xTrace.size(); i++) {
 				XAttribute message = xTrace.get(i).getAttributes().get("concept:name");
-				ArrayList<ComplianceRequirementInfo>  lista = objetoRequerimiento.get(message.toString());
-				for (ComplianceRequirementInfo cri : lista) {
-					if (cri != null && !cri.ReadyForEval()) {
-						cri.UpdateInfo(i, xTrace.get(i));
+				ArrayList<ComplianceRequirementInfo> lista = objetoRequerimiento.get(message.toString());
+				if (lista != null) {
+					for (ComplianceRequirementInfo cri : lista) {
+						if (cri != null && !cri.ReadyForEval()) {
+							cri.UpdateInfo(i, xTrace.get(i));
+						}
 					}
 				}
 			}
@@ -82,18 +88,83 @@ public class ComplianceChecker {
 				c.CleanData();
 			}
 		}
-		for (ComplianceRequirement req: requerimientos) {
-			ArrayList<XTrace> trazas= trazasViolatorias.get(req);			
-			System.out.println("req1 " + (trazas!= null? trazas.size(): 0)+" trazas violatorias");
+		for (ComplianceRequirement req : requerimientos) {
+			ArrayList<XTrace> trazas = trazasViolatorias.get(req);
+			System.out.println("req1 " + (trazas != null ? trazas.size() : 0) + " trazas violatorias");
 		}
-		
 
+	}
+
+	private static ArrayList<ComplianceRequirement> CreateMockComplianceRequirements() {
+		ArrayList<ComplianceRequirement> reqs = new ArrayList<ComplianceRequirement>();
+		reqs.add(CreateMockComplianceRequirement("Get Available Dates AGESIC", "Get Available Dates DNIC", "AGESIC",
+				"DNIC", "DNIC", "AGESIC", "M cooccurs N"));
+		reqs.add(CreateMockComplianceRequirement("Get Available Dates AGESIC", "Get Available Dates DNIC", "AGESIC",
+				"DNIC", "DNIC", "AGESIC", "M coabsent N"));
+		reqs.add(CreateMockComplianceRequirement("Get Available Dates AGESIC", "Get Available Dates DNIC", "AGESIC",
+				"DNIC", "DNIC", "AGESIC", "M exclusive N"));
+		return reqs;
+	}
+
+	private static ComplianceRequirement CreateMockComplianceRequirement(String m, String n, String senderm,
+			String sendern, String receiverm, String receivern, String control) {
+		ComplianceRequirement req = new ComplianceRequirement();
+		ArrayList<ComplianceObject> objetosAsociados = new ArrayList<ComplianceObject>();
+		ComplianceObject o = new ComplianceObject();
+		o.setName(m);
+		objetosAsociados.add(o);
+		o = new ComplianceObject();
+		o.setName(n);
+		objetosAsociados.add(o);
+		req.setComplianceobjects(objetosAsociados);
+		ComplianceControl controlcompliance = new ComplianceControl();
+		controlcompliance.setName(control);
+		req.setControlcompliance(controlcompliance);
+		ArrayList<ControlConfigurationPropertyValue> controlconfigurationpropertiesvalue = new ArrayList<ControlConfigurationPropertyValue>();
+		ControlConfigurationPropertyValue e = new ControlConfigurationPropertyValue();
+		ControlConfigurationProperty controlconfigurationproperty = new ControlConfigurationProperty();
+		controlconfigurationproperty.setName("Message M");
+		e.setControlconfigurationproperties(controlconfigurationproperty);
+		e.setValue(m);
+		controlconfigurationpropertiesvalue.add(e);
+		e = new ControlConfigurationPropertyValue();
+		controlconfigurationproperty = new ControlConfigurationProperty();
+		controlconfigurationproperty.setName("Message N");
+		e.setControlconfigurationproperties(controlconfigurationproperty);
+		e.setValue(n);
+		controlconfigurationpropertiesvalue.add(e);
+		e = new ControlConfigurationPropertyValue();
+		controlconfigurationproperty = new ControlConfigurationProperty();
+		controlconfigurationproperty.setName("Sender M");
+		e.setControlconfigurationproperties(controlconfigurationproperty);
+		e.setValue(senderm);
+		controlconfigurationpropertiesvalue.add(e);
+		e = new ControlConfigurationPropertyValue();
+		controlconfigurationproperty = new ControlConfigurationProperty();
+		controlconfigurationproperty.setName("Receiver M");
+		e.setControlconfigurationproperties(controlconfigurationproperty);
+		e.setValue(receiverm);
+		controlconfigurationpropertiesvalue.add(e);
+		e = new ControlConfigurationPropertyValue();
+		controlconfigurationproperty = new ControlConfigurationProperty();
+		controlconfigurationproperty.setName("Receiver N");
+		e.setControlconfigurationproperties(controlconfigurationproperty);
+		e.setValue(receivern);
+		controlconfigurationpropertiesvalue.add(e);
+		e = new ControlConfigurationPropertyValue();
+		controlconfigurationproperty = new ControlConfigurationProperty();
+		controlconfigurationproperty.setName("Sender N");
+		e.setControlconfigurationproperties(controlconfigurationproperty);
+		e.setValue(sendern);
+		controlconfigurationpropertiesvalue.add(e);
+		req.setControlconfigurationpropertiesvalue(controlconfigurationpropertiesvalue);
+		return req;
 	}
 
 	private static ComplianceRequirementInfo CreateComplianceRequirementInfo(
 			ComplianceRequirement complianceRequirement) {
 		switch (complianceRequirement.getControlcompliance().getName()) {
-		/*Interaction	Send / Receive Messages*/
+		/* Interaction Send / Receive Messages */
 		case "M occurs":
 			return new ComplianceRequirementInfoMoccurs(complianceRequirement);
 		case "M absent":
@@ -108,7 +179,7 @@ public class ComplianceChecker {
 			return new ComplianceRequirementInfoMcorequisiteN(complianceRequirement);
 		case "M mutex choice N":
 			return new ComplianceRequirementInfoMmutexchoiceN(complianceRequirement);
-			/*Interaction	Message Flow*/
+		/* Interaction Message Flow */
 		case "M precedes N":
 			return new ComplianceRequirementInfoMprecedesN(complianceRequirement);
 		case "M leadsto N":
@@ -117,14 +188,14 @@ public class ComplianceChecker {
 			return new ComplianceRequirementInfoMxleadstoN(complianceRequirement);
 		case "R between M and N":
 			return new ComplianceRequirementInfoRbetweenMandN(complianceRequirement);
-		/* Time		Points in Time*/
+		/* Time Points in Time */
 		case "M occurs at D":
 			return new ComplianceRequirementInfoMoccursatD(complianceRequirement);
 		case "M occurs before D":
 			return new ComplianceRequirementInfoMoccursbeforeD(complianceRequirement);
 		case "M occurs after D":
 			return new ComplianceRequirementInfoMoccursafterD(complianceRequirement);
-			/* Time		Interval*/
+		/* Time Interval */
 		case "M cooccurs N within I":
 			return new ComplianceRequirementInfoMcooccursNwithinI(complianceRequirement);
 		case "M cooccurs N after I":
