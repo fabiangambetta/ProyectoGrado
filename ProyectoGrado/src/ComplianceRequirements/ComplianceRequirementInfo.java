@@ -62,7 +62,7 @@ public class ComplianceRequirementInfo {
 			if(event.getAttributes().get("concept:name").toString().equals(mensajesFaltantes.get(i).getValue()))
 			{
 				String param= mensajesFaltantes.get(i).getControlconfigurationproperty().getName();
-				prop= param.substring(8, param.length()-1);
+				prop= param.substring(8, param.length());
 				// asumo nombre de parametro "Message {0}"
 				existe.put("concept:name", i);
 			}
