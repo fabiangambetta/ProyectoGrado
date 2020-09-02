@@ -11,7 +11,7 @@ import Model.ComplianceRequirement;
 import Model.ControlConfigurationPropertyValue;
 
 public class ComplianceRequirementInfo {
-
+	public int interval;
 	public ComplianceRequirement requerimiento;
 	protected Map<String, XEventConIndex> eventos;
 	protected Map<String,ArrayList<ControlConfigurationPropertyValue>> propsFaltantes;
@@ -44,6 +44,11 @@ public class ComplianceRequirementInfo {
 				ArrayList<ControlConfigurationPropertyValue> lista =this.propsFaltantes.get("Receiver");
 				lista.add(prop);
 			}
+ 			else if(prop.getControlconfigurationproperty().getName().startsWith("interval"))
+ 			{
+ 				interval = Integer.parseInt(prop.getValue());
+ 			}
+ 			
 		}
 	}
 	public void UpdateInfo(int index, XEvent event) {
@@ -71,7 +76,7 @@ public class ComplianceRequirementInfo {
 				existe.put("collab:fromParticipant", param.equals("Sender "+prop)? i:-1);
 			}
 		}
-		ArrayList<ControlConfigurationPropertyValue> receiverFaltantes= this.propsFaltantes.get("Sender");
+		ArrayList<ControlConfigurationPropertyValue> receiverFaltantes= this.propsFaltantes.get("Receiver");
 		for (int i = 0; i < receiverFaltantes.size(); i++) {
 			if(event.getAttributes().get("collab:toParticipant").toString().equals(receiverFaltantes.get(i).getValue()))
 			{

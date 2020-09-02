@@ -4,13 +4,13 @@ import org.deckfour.xes.model.XEvent;
 
 public class XEventConIndex {
 
-	int index;
+	int value;
 	XEvent event;
 	public int getIndex() {
-		return index;
+		return value;
 	}
 	public void setIndex(int index) {
-		this.index = index;
+		this.value = index;
 	}
 	public XEvent getEvent() {
 		return event;
@@ -19,7 +19,7 @@ public class XEventConIndex {
 		this.event = event;
 	}
 	public XEventConIndex(int index, XEvent event) {
-		this.index= index;
+		this.value= index;
 		this.event= event;
 	}
 

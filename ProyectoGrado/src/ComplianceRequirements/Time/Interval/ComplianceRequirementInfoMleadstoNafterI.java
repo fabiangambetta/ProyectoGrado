@@ -9,9 +9,10 @@ public class ComplianceRequirementInfoMleadstoNafterI extends ComplianceRequirem
 		super(complianceRequirement);
 		// TODO Auto-generated constructor stub
 	}
-
+	//N is exchanged after M after interval I
 	public boolean TrazaValida() {
 		// TODO Auto-generated method stub
-		return false;
+		return this.eventos.containsKey("M") && this.eventos.containsKey("N") && this.eventos.containsKey("I") &&
+				(this.eventos.get("M").getIndex() - this.eventos.get("M").getIndex()) > this.interval;
 	}
 }
