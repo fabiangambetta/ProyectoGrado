@@ -1,5 +1,6 @@
-package ComplianceRequirements;
+package ComplianceRequirements.Time.Interval;
 
+import ComplianceRequirements.ComplianceRequirementInfo;
 import Model.ComplianceRequirement;
 
 public class ComplianceRequirementInfoMprecedesNwithinI extends ComplianceRequirementInfo {
@@ -7,11 +8,6 @@ public class ComplianceRequirementInfoMprecedesNwithinI extends ComplianceRequir
 	public ComplianceRequirementInfoMprecedesNwithinI(ComplianceRequirement complianceRequirement) {
 		super(complianceRequirement);
 		// TODO Auto-generated constructor stub
-	}
-
-	public boolean ReadyForEval() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	public boolean TrazaValida() {

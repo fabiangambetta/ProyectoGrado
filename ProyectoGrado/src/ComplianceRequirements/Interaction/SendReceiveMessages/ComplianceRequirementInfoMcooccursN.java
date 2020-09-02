@@ -1,5 +1,8 @@
-package ComplianceRequirements;
+package ComplianceRequirements.Interaction.SendReceiveMessages;
 
+import java.util.Map;
+
+import ComplianceRequirements.ComplianceRequirementInfo;
 import Model.ComplianceRequirement;
 
 public class ComplianceRequirementInfoMcooccursN extends ComplianceRequirementInfo {
@@ -9,13 +12,7 @@ public class ComplianceRequirementInfoMcooccursN extends ComplianceRequirementIn
 		// TODO Auto-generated constructor stub
 	}
 
-	public boolean ReadyForEval() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public boolean TrazaValida() {
-		// TODO Auto-generated method stub
-		return false;
+		return !this.eventos.containsKey("m") || (this.eventos.containsKey("m") && this.eventos.containsKey("n"));
 	}
 }

@@ -1,5 +1,6 @@
-package ComplianceRequirements;
+package ComplianceRequirements.Interaction.MessageFlow;
 
+import ComplianceRequirements.ComplianceRequirementInfo;
 import Model.ComplianceRequirement;
 
 public class ComplianceRequirementInfoMprecedesN extends ComplianceRequirementInfo {
@@ -9,13 +10,9 @@ public class ComplianceRequirementInfoMprecedesN extends ComplianceRequirementIn
 		// TODO Auto-generated constructor stub
 	}
 
-	public boolean ReadyForEval() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	//N is exchanged after M
 	public boolean TrazaValida() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.eventos.containsKey("M") && this.eventos.containsKey("N") && 
+				this.eventos.get("M").getIndex()<this.eventos.get("N").getIndex();
 	}
 }

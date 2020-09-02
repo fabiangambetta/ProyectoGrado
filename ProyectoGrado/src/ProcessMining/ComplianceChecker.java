@@ -9,31 +9,32 @@ import java.util.Map;
 
 import org.deckfour.xes.in.XesXmlParser;
 import org.deckfour.xes.model.XAttribute;
+import org.deckfour.xes.model.XEvent;
 import org.deckfour.xes.model.XLog;
 import org.deckfour.xes.model.XTrace;
 import org.deckfour.xes.model.impl.XLogImpl;
 
 import ComplianceRequirements.ComplianceRequirementInfo;
-import ComplianceRequirements.ComplianceRequirementInfoMabsent;
-import ComplianceRequirements.ComplianceRequirementInfoMcoabsentN;
-import ComplianceRequirements.ComplianceRequirementInfoMoccurs;
-import ComplianceRequirements.ComplianceRequirementInfoMoccursafterD;
-import ComplianceRequirements.ComplianceRequirementInfoMoccursatD;
-import ComplianceRequirements.ComplianceRequirementInfoMoccursbeforeD;
-import ComplianceRequirements.ComplianceRequirementInfoMprecedesN;
-import ComplianceRequirements.ComplianceRequirementInfoMprecedesNafterI;
-import ComplianceRequirements.ComplianceRequirementInfoMprecedesNwithinI;
-import ComplianceRequirements.ComplianceRequirementInfoMxleadstoN;
-import ComplianceRequirements.ComplianceRequirementInfoRbetweenMandN;
-import ComplianceRequirements.ComplianceRequirementInfoMcooccursN;
-import ComplianceRequirements.ComplianceRequirementInfoMcooccursNafterI;
-import ComplianceRequirements.ComplianceRequirementInfoMcooccursNwithinI;
-import ComplianceRequirements.ComplianceRequirementInfoMcorequisiteN;
-import ComplianceRequirements.ComplianceRequirementInfoMexclusiveN;
-import ComplianceRequirements.ComplianceRequirementInfoMleadstoN;
-import ComplianceRequirements.ComplianceRequirementInfoMleadstoNafterI;
-import ComplianceRequirements.ComplianceRequirementInfoMleadstoNwithinI;
-import ComplianceRequirements.ComplianceRequirementInfoMmutexchoiceN;
+import ComplianceRequirements.Interaction.MessageFlow.ComplianceRequirementInfoMleadstoN;
+import ComplianceRequirements.Interaction.MessageFlow.ComplianceRequirementInfoMprecedesN;
+import ComplianceRequirements.Interaction.MessageFlow.ComplianceRequirementInfoMxleadstoN;
+import ComplianceRequirements.Interaction.MessageFlow.ComplianceRequirementInfoRbetweenMandN;
+import ComplianceRequirements.Interaction.SendReceiveMessages.ComplianceRequirementInfoMabsent;
+import ComplianceRequirements.Interaction.SendReceiveMessages.ComplianceRequirementInfoMcoabsentN;
+import ComplianceRequirements.Interaction.SendReceiveMessages.ComplianceRequirementInfoMcooccursN;
+import ComplianceRequirements.Interaction.SendReceiveMessages.ComplianceRequirementInfoMcorequisiteN;
+import ComplianceRequirements.Interaction.SendReceiveMessages.ComplianceRequirementInfoMexclusiveN;
+import ComplianceRequirements.Interaction.SendReceiveMessages.ComplianceRequirementInfoMmutexchoiceN;
+import ComplianceRequirements.Interaction.SendReceiveMessages.ComplianceRequirementInfoMoccurs;
+import ComplianceRequirements.Time.Interval.ComplianceRequirementInfoMcooccursNafterI;
+import ComplianceRequirements.Time.Interval.ComplianceRequirementInfoMcooccursNwithinI;
+import ComplianceRequirements.Time.Interval.ComplianceRequirementInfoMleadstoNafterI;
+import ComplianceRequirements.Time.Interval.ComplianceRequirementInfoMleadstoNwithinI;
+import ComplianceRequirements.Time.Interval.ComplianceRequirementInfoMprecedesNafterI;
+import ComplianceRequirements.Time.Interval.ComplianceRequirementInfoMprecedesNwithinI;
+import ComplianceRequirements.Time.PointInTime.ComplianceRequirementInfoMoccursafterD;
+import ComplianceRequirements.Time.PointInTime.ComplianceRequirementInfoMoccursatD;
+import ComplianceRequirements.Time.PointInTime.ComplianceRequirementInfoMoccursbeforeD;
 import Model.ComplianceRequirement;
 
 public class ComplianceChecker {
@@ -64,7 +65,7 @@ public class ComplianceChecker {
 				ArrayList<ComplianceRequirementInfo>  lista = objetoRequerimiento.get(message.toString());
 				for (ComplianceRequirementInfo cri : lista) {
 					if (cri != null && !cri.ReadyForEval()) {
-						cri.UpdateInfo(i, xTrace.get(i).getAttributes());
+						cri.UpdateInfo(i, xTrace.get(i));
 					}
 				}
 			}

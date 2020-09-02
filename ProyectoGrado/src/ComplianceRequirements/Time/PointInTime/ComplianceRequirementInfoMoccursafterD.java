@@ -1,5 +1,6 @@
-package ComplianceRequirements;
+package ComplianceRequirements.Time.PointInTime;
 
+import ComplianceRequirements.ComplianceRequirementInfo;
 import Model.ComplianceRequirement;
 
 public class ComplianceRequirementInfoMoccursafterD extends ComplianceRequirementInfo {
@@ -7,11 +8,6 @@ public class ComplianceRequirementInfoMoccursafterD extends ComplianceRequiremen
 	public ComplianceRequirementInfoMoccursafterD(ComplianceRequirement complianceRequirement) {
 		super(complianceRequirement);
 		// TODO Auto-generated constructor stub
-	}
-
-	public boolean ReadyForEval() {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 	public boolean TrazaValida() {

@@ -1,5 +1,6 @@
-package ComplianceRequirements;
+package ComplianceRequirements.Interaction.SendReceiveMessages;
 
+import ComplianceRequirements.ComplianceRequirementInfo;
 import Model.ComplianceRequirement;
 
 public class ComplianceRequirementInfoMoccurs extends ComplianceRequirementInfo {
@@ -9,14 +10,8 @@ public class ComplianceRequirementInfoMoccurs extends ComplianceRequirementInfo 
 		// TODO Auto-generated constructor stub
 	}
 	
-	public boolean ReadyForEval() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public boolean TrazaValida() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.propsFaltantes.isEmpty();
 	}
 
 }

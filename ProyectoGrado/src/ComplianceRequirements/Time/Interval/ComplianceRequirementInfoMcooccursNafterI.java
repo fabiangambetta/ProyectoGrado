@@ -1,5 +1,6 @@
-package ComplianceRequirements;
+package ComplianceRequirements.Time.Interval;
 
+import ComplianceRequirements.ComplianceRequirementInfo;
 import Model.ComplianceRequirement;
 
 public class ComplianceRequirementInfoMcooccursNafterI extends ComplianceRequirementInfo {
@@ -9,11 +10,6 @@ public class ComplianceRequirementInfoMcooccursNafterI extends ComplianceRequire
 		// TODO Auto-generated constructor stub
 	}
 	
-	public boolean ReadyForEval() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public boolean TrazaValida() {
 		// TODO Auto-generated method stub
 		return false;
