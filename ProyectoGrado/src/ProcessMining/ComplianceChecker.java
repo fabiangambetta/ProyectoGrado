@@ -1,18 +1,22 @@
 package ProcessMining;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.deckfour.xes.factory.XFactoryBufferedImpl;
 import org.deckfour.xes.in.XesXmlParser;
 import org.deckfour.xes.model.XAttribute;
 import org.deckfour.xes.model.XEvent;
 import org.deckfour.xes.model.XLog;
 import org.deckfour.xes.model.XTrace;
 import org.deckfour.xes.model.impl.XLogImpl;
+import org.deckfour.xes.out.XesXmlSerializer;
 
 import ComplianceRequirements.ComplianceRequirementInfo;
 import ComplianceRequirements.Interaction.MessageFlow.ComplianceRequirementInfoMleadstoN;
@@ -45,7 +49,7 @@ public class ComplianceChecker {
 
 	public static void main(String[] args) {
 		Map<String, ArrayList<ComplianceRequirementInfo>> objetoRequerimiento = new HashMap<String, ArrayList<ComplianceRequirementInfo>>();
-		Map<ComplianceRequirement, ArrayList<XTrace>> trazasViolatorias = new HashMap<ComplianceRequirement, ArrayList<XTrace>>();
+		Map<ComplianceRequirement, XLog> trazasViolatorias = new HashMap<ComplianceRequirement, XLog>();
 		ArrayList<ComplianceRequirement> requerimientos = CreateMockComplianceRequirements();
 		ArrayList<ComplianceRequirementInfo> requerimientsInfo = new ArrayList<ComplianceRequirementInfo>();
 		for (int i = 0; i < requerimientos.size(); i++) {
@@ -63,6 +67,7 @@ public class ComplianceChecker {
 		}
 
 		XLog log = loadXML("output118.xes");
+		
 		for (XTrace xTrace : log) {
 			for (int i = 0; i < xTrace.size(); i++) {
 				XAttribute message = xTrace.get(i).getAttributes().get("concept:name");
@@ -75,11 +80,12 @@ public class ComplianceChecker {
 					}
 				}
 			}
+			XFactoryBufferedImpl x = new XFactoryBufferedImpl();
 			for (ComplianceRequirementInfo c : requerimientsInfo) {
 				if (!c.TrazaValida()) {
-					ArrayList<XTrace> lista = trazasViolatorias.get(c.requerimiento);
+					XLog lista = trazasViolatorias.get(c.requerimiento);
 					if (lista == null) {
-						lista = new ArrayList<XTrace>();
+						lista = x.createLog();
 						trazasViolatorias.put(c.requerimiento, lista);
 					} else {
 						lista.add(xTrace);
@@ -88,9 +94,26 @@ public class ComplianceChecker {
 				c.CleanData();
 			}
 		}
+		int i = 1;
 		for (ComplianceRequirement req : requerimientos) {
-			ArrayList<XTrace> trazas = trazasViolatorias.get(req);
-			System.out.println("req1 " + (trazas != null ? trazas.size() : 0) + " trazas violatorias");
+			XLog trazas = trazasViolatorias.get(req);
+			System.out.println("req "+i +" "+ (trazas != null ? trazas.size() : 0) + " trazas violatorias");
+			
+			if(trazas!= null && trazas.size()>0) {
+				XesXmlSerializer file = new XesXmlSerializer();
+				try {
+					File yourFile = new File("violan_regla_"+i+".xes");
+					if(!yourFile.exists()) {
+						yourFile.createNewFile(); // if file already exists will do nothing
+					}				 
+					OutputStream oFile = new FileOutputStream(yourFile, false);
+					file.serialize(log, oFile);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			i++;
 		}
 
 	}
