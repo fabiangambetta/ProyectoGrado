@@ -13,6 +13,6 @@ public class ComplianceRequirementInfoMcooccursN extends ComplianceRequirementIn
 	}
 
 	public boolean TrazaValida() {
-		return !this.eventos.containsKey("m") || (this.eventos.containsKey("m") && this.eventos.containsKey("n"));
+		return !this.eventos.containsKey("M") || (this.eventos.containsKey("M") && this.eventos.containsKey("N"));
 	}
 }

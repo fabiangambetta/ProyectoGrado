@@ -66,7 +66,7 @@ public class ComplianceChecker {
 			}
 		}
 
-		XLog log = loadXML("output118.xes");
+		XLog log = loadXML("output304.xes");
 		
 		for (XTrace xTrace : log) {
 			for (int i = 0; i < xTrace.size(); i++) {
