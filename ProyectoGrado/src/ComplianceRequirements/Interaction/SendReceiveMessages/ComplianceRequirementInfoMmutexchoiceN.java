@@ -11,6 +11,6 @@ public class ComplianceRequirementInfoMmutexchoiceN extends ComplianceRequiremen
 	}
 
 	public boolean TrazaValida() {
-		return this.propsFaltantes.get("Message").size()==1;
+		return this.eventos.containsKey("M") || this.eventos.containsKey("N");
 	}
 }

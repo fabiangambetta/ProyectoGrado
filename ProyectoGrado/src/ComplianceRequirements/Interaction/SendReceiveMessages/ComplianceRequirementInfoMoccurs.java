@@ -11,7 +11,7 @@ public class ComplianceRequirementInfoMoccurs extends ComplianceRequirementInfo 
 	}
 	
 	public boolean TrazaValida() {
-		return this.propsFaltantes.isEmpty();
+		return this.eventos.containsKey("M");
 	}
 
 }

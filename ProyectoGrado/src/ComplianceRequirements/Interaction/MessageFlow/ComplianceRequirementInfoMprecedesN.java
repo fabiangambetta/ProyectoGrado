@@ -10,9 +10,10 @@ public class ComplianceRequirementInfoMprecedesN extends ComplianceRequirementIn
 		// TODO Auto-generated constructor stub
 	}
 
-	//N is exchanged after M
+	//(j,N) -> (i,M)  && i<j
 	public boolean TrazaValida() {
-		return this.eventos.containsKey("M") && this.eventos.containsKey("N") && 
-				this.eventos.get("M").getIndex()<this.eventos.get("N").getIndex();
+		return !this.eventos.containsKey("N") || 
+				( this.eventos.containsKey("M") && 
+				  this.eventos.get("M").getIndex()<this.eventos.get("N").getIndex());
 	}
 }

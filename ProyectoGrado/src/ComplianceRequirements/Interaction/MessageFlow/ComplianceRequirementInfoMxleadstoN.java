@@ -10,9 +10,10 @@ public class ComplianceRequirementInfoMxleadstoN extends ComplianceRequirementIn
 		// TODO Auto-generated constructor stub
 	}
 
-	// N is immediatily exchanged after M
+	//(i,M) -> (i+1,N) 
 	public boolean TrazaValida() {
-		return this.eventos.containsKey("M") && this.eventos.containsKey("N")
-				&& this.eventos.get("M").getIndex() == this.eventos.get("N").getIndex()+1;
+		return !this.eventos.containsKey("M") ||
+           (this.eventos.containsKey("N") && 
+        		   this.eventos.get("M").getIndex() == this.eventos.get("N").getIndex()+1);
 	}
 }

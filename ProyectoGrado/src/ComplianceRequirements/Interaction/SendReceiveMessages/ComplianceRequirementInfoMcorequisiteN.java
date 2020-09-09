@@ -9,8 +9,9 @@ public class ComplianceRequirementInfoMcorequisiteN extends ComplianceRequiremen
 		super(complianceRequirement);
 		// TODO Auto-generated constructor stub
 	}
-	
+	// M sii N
 	public boolean TrazaValida() {
-		return this.propsFaltantes.get("Message").isEmpty() || this.propsFaltantes.get("Message").size() == 2;
+		return (this.eventos.containsKey("M") && this.eventos.containsKey("N"))
+				|| (!this.eventos.containsKey("M") && !this.eventos.containsKey("N"));
 	}
 }
