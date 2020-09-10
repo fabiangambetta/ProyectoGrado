@@ -10,6 +10,6 @@ public class ComplianceRequirementInfoMexclusiveN extends ComplianceRequirementI
 	}
 
 	public boolean TrazaValida() {
-		return !this.propsFaltantes.get("Message").isEmpty();
+		return !this.eventos.containsKey("M") || !this.eventos.containsKey("N");
 	}
 }

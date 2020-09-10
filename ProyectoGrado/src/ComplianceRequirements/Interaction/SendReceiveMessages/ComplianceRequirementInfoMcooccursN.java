@@ -11,8 +11,8 @@ public class ComplianceRequirementInfoMcooccursN extends ComplianceRequirementIn
 		super(complianceRequirement);
 		// TODO Auto-generated constructor stub
 	}
-
+	// M -> N
 	public boolean TrazaValida() {
-		return !this.eventos.containsKey("m") || (this.eventos.containsKey("m") && this.eventos.containsKey("n"));
+		return !this.eventos.containsKey("M") || this.eventos.containsKey("N");
 	}
 }

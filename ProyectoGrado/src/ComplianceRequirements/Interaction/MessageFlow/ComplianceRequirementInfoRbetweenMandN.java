@@ -12,8 +12,10 @@ public class ComplianceRequirementInfoRbetweenMandN extends ComplianceRequiremen
 
 	// R is exchanged between M and N
 	public boolean TrazaValida() {
-		return this.eventos.containsKey("M") && this.eventos.containsKey("N") && this.eventos.containsKey("R")
-				&& this.eventos.get("M").getIndex() <  this.eventos.get("R").getIndex() &&
-				this.eventos.get("R").getIndex() <this.eventos.get("N").getIndex();
+		return (!this.eventos.containsKey("M") || !this.eventos.containsKey("N")) || (this.eventos.containsKey("R")
+				&& ((this.eventos.get("M").getIndex() < this.eventos.get("R").getIndex()
+						&& this.eventos.get("R").getIndex() < this.eventos.get("N").getIndex())
+						|| (this.eventos.get("M").getIndex() > this.eventos.get("R").getIndex()
+								&& this.eventos.get("R").getIndex() > this.eventos.get("N").getIndex())));
 	}
 }

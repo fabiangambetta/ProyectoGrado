@@ -51,14 +51,19 @@ public class ComplianceChecker {
 		for (int i = 0; i < requerimientos.size(); i++) {
 			ComplianceRequirementInfo cri = CreateComplianceRequirementInfo(requerimientos.get(i));
 			requerimientsInfo.add(cri);
-			for (int j = 0; j < requerimientos.get(i).getComplianceobjects().size(); j++) {
-				ArrayList<ComplianceRequirementInfo> lista = objetoRequerimiento
-						.get(requerimientos.get(i).getComplianceobjects().get(j).getName());
-				if (lista == null) {
-					lista = new ArrayList<ComplianceRequirementInfo>();
-					objetoRequerimiento.put(requerimientos.get(i).getComplianceobjects().get(j).getName(), lista);
+			for (int j = 0; j < requerimientos.get(i).getControlconfigurationpropertiesvalue().size(); j++) {
+
+				ControlConfigurationPropertyValue prop = requerimientos.get(i).getControlconfigurationpropertiesvalue().get(j);
+				if(prop.getControlconfigurationproperty().getName().contains("Message"))
+				{
+					String eventName= prop.getValue();
+					ArrayList<ComplianceRequirementInfo> lista =objetoRequerimiento.get(eventName);
+					if (lista == null) {
+						lista = new ArrayList<ComplianceRequirementInfo>();
+						objetoRequerimiento.put(eventName, lista);
+					}
+					lista.add(cri);
 				}
-				lista.add(cri);
 			}
 		}
 

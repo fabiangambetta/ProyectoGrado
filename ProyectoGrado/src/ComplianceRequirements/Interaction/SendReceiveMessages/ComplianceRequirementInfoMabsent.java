@@ -11,6 +11,6 @@ public class ComplianceRequirementInfoMabsent extends ComplianceRequirementInfo 
 	}
 
 	public boolean TrazaValida() {
-		return !this.propsFaltantes.get("Message").isEmpty();
+		return !this.eventos.containsKey("M");
 	}
 }
