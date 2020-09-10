@@ -14,14 +14,15 @@ public class ComplianceRequirementInfo {
 
 	public ComplianceRequirement requerimiento;
 	protected Map<String, XEventConIndex> eventos;
-	protected Map<String,ArrayList<ControlConfigurationPropertyValue>> propsFaltantes;
+	protected ArrayList<ControlConfigurationPropertyValue> eventmessageFaltantes;
+	protected Map<String,ControlConfigurationPropertyValue> senders;
+	protected Map<String,ControlConfigurationPropertyValue> receivers;
 	public ComplianceRequirementInfo(ComplianceRequirement complianceRequirement) {
 		this.requerimiento= complianceRequirement;
 		
-		this.propsFaltantes= new HashMap<String, ArrayList<ControlConfigurationPropertyValue>>();
-		this.propsFaltantes.put("Message", new ArrayList<ControlConfigurationPropertyValue>());
-		this.propsFaltantes.put("Sender", new ArrayList<ControlConfigurationPropertyValue>());
-		this.propsFaltantes.put("Receiver", new ArrayList<ControlConfigurationPropertyValue>());
+		this.eventmessageFaltantes= new ArrayList<ControlConfigurationPropertyValue>();
+		this.senders= new HashMap<String,ControlConfigurationPropertyValue>();
+		this.receivers= new HashMap<String,ControlConfigurationPropertyValue>();
 		this.eventos = new HashMap<String, XEventConIndex>();
 		this.Initialize();
 		
@@ -31,80 +32,56 @@ public class ComplianceRequirementInfo {
 		for (ControlConfigurationPropertyValue prop : this.requerimiento.getControlconfigurationpropertiesvalue()) {
 			if(prop.getControlconfigurationproperty().getName().startsWith("Message"))
 			{
-				ArrayList<ControlConfigurationPropertyValue> lista =this.propsFaltantes.get("Message");
-				lista.add(prop);
+				this.eventmessageFaltantes.add(prop);
 			}
 			else if(prop.getControlconfigurationproperty().getName().startsWith("Sender"))
 			{	
-				ArrayList<ControlConfigurationPropertyValue> lista =this.propsFaltantes.get("Sender");
-				lista.add(prop);
+				String param=prop.getControlconfigurationproperty().getName();
+				this.senders.put(param.substring(7, param.length()), prop);
 			}
  			else if(prop.getControlconfigurationproperty().getName().startsWith("Receiver"))
 			{	
-				ArrayList<ControlConfigurationPropertyValue> lista =this.propsFaltantes.get("Receiver");
-				lista.add(prop);
+ 				String param=prop.getControlconfigurationproperty().getName();
+				this.receivers.put(param.substring(9, param.length()), prop);
 			}
 		}
 	}
 	public void UpdateInfo(int index, XEvent event) {
-		Map<String, Integer> existe= new HashMap<String, Integer>();
-		existe.put("concept:name", -1);
-		existe.put("collab:fromParticipant", -1);
-		existe.put("collab:toParticipant", -1);
-		ArrayList<ControlConfigurationPropertyValue> mensajesFaltantes= this.propsFaltantes.get("Message");
+		int existe=-1; 
 		String prop= "";
-		for (int i = 0; i < mensajesFaltantes.size(); i++) {
-			if(event.getAttributes().get("concept:name").toString().equals(mensajesFaltantes.get(i).getValue()))
+		for (int i = 0; i < this.eventmessageFaltantes.size(); i++) {
+			if(event.getAttributes().get("concept:name").toString().equals(this.eventmessageFaltantes.get(i).getValue()))
 			{
-				String param= mensajesFaltantes.get(i).getControlconfigurationproperty().getName();
+				String param= this.eventmessageFaltantes.get(i).getControlconfigurationproperty().getName();
 				prop= param.substring(8, param.length());
 				// asumo nombre de parametro "Message {0}"
-				existe.put("concept:name", i);
+				existe= i;
 			}
 		}
-		ArrayList<ControlConfigurationPropertyValue> senderFaltantes= this.propsFaltantes.get("Sender");
-		for (int i = 0; i < senderFaltantes.size(); i++) {
-			if(event.getAttributes().get("collab:fromParticipant").toString().equals(senderFaltantes.get(i).getValue()))
-			{
-				String param= senderFaltantes.get(i).getControlconfigurationproperty().getName();
-				// asumo nombre de parametro "Sender {0}"
-				existe.put("collab:fromParticipant", param.equals("Sender "+prop)? i:-1);
-			}
-		}
-		ArrayList<ControlConfigurationPropertyValue> receiverFaltantes= this.propsFaltantes.get("Receiver");
-		for (int i = 0; i < receiverFaltantes.size(); i++) {
-			if(event.getAttributes().get("collab:toParticipant").toString().equals(receiverFaltantes.get(i).getValue()))
-			{
-				String param= receiverFaltantes.get(i).getControlconfigurationproperty().getName();
-				// asumo nombre de parametro "Receiver {0}"
-				existe.put("collab:toParticipant", param.equals("Receiver "+prop)? i:-1);
-			}
-		}
-		if(!existe.containsValue(-1)) {
-			int ind=existe.get("concept:name");
-			mensajesFaltantes.remove(ind);
-			ind=existe.get("collab:fromParticipant");
-			senderFaltantes.remove(ind);
-			ind=existe.get("collab:toParticipant");
-			receiverFaltantes.remove(ind);
+		
+		ControlConfigurationPropertyValue senderEsperado= this.senders.get(prop);
+		ControlConfigurationPropertyValue receiverEsperado= this.receivers.get(prop);
+		if(existe>-1 && 
+				senderEsperado.getValue().equals(event.getAttributes().get("collab:fromParticipant").toString())
+				&& receiverEsperado.getValue().equals(event.getAttributes().get("collab:toParticipant").toString())
+				) {
+			this.eventmessageFaltantes.remove(existe);
 			XEventConIndex ev = new XEventConIndex(index, event);
 			this.eventos.put(prop, ev);
 		}
 	}
 
 	public boolean ReadyForEval() {
-		return propsFaltantes.get("Message").isEmpty();
+		return this.eventmessageFaltantes.isEmpty();
 	}
 
 	public boolean TrazaValida() {
-		return propsFaltantes.isEmpty();
+		return true;
 	}
 
 	public void CleanData() {
 		this.eventos.clear();
-		this.propsFaltantes.get("Message").clear();
-		this.propsFaltantes.get("Sender").clear();
-		this.propsFaltantes.get("Receiver").clear();
+		this.eventmessageFaltantes.clear();
 		this.Initialize();
 	}
 
