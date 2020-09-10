@@ -14,6 +14,7 @@ public class ComplianceRequirementInfoMoccursatD extends ComplianceRequirementIn
 	//M is exchanged from S to R at D
 	public boolean TrazaValida() {
 		// TODO Auto-generated method stub
-		return LocalDate.now().isEqual(this.date);
+		return this.eventos.containsKey("M") &&  
+				this.eventos.get("M").getTimestamp().equals(this.date);
 	}
 }

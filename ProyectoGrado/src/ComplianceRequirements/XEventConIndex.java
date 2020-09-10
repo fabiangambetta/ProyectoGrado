@@ -1,6 +1,9 @@
 package ComplianceRequirements;
 
+import java.util.Date;
+
 import org.deckfour.xes.model.XEvent;
+import org.deckfour.xes.model.impl.XAttributeTimestampImpl;
 
 public class XEventConIndex {
 
@@ -15,6 +18,11 @@ public class XEventConIndex {
 	public XEvent getEvent() {
 		return event;
 	}
+	
+	public Date getTimestamp() {
+		return ((XAttributeTimestampImpl)this.event.getAttributes().get("time:timestamp")).getValue();
+	}
+	
 	public void setEvent(XEvent event) {
 		this.event = event;
 	}

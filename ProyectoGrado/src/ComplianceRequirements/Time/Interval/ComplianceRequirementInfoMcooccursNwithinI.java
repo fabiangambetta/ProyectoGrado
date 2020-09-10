@@ -1,5 +1,9 @@
 package ComplianceRequirements.Time.Interval;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
+
 import ComplianceRequirements.ComplianceRequirementInfo;
 import Model.ComplianceRequirement;
 
@@ -12,9 +16,12 @@ public class ComplianceRequirementInfoMcooccursNwithinI extends ComplianceRequir
 	//if M is exchanged, then N must be exchanged within interval I
 	public boolean TrazaValida() {
 		// TODO Auto-generated method stub
-		if(!this.eventos.containsKey("M")) return true;
-		else
-		return this.eventos.containsKey("M") && this.eventos.containsKey("N") && this.eventos.containsKey("I") &&
-				(this.eventos.get("N").getIndex() - this.eventos.get("M").getIndex()) < this.interval;
+		return !this.eventos.containsKey("M") ||
+				(this.eventos.containsKey("N") &&
+				Math.abs(Duration.between(
+						this.eventos.get("M").getTimestamp().toInstant(), 
+						this.eventos.get("N").getTimestamp().toInstant()
+						).get(ChronoUnit.MILLIS)) 
+				< this.interval);
 	}
 }

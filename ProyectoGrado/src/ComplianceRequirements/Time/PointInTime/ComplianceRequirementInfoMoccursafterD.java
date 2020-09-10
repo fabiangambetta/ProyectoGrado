@@ -14,7 +14,7 @@ public class ComplianceRequirementInfoMoccursafterD extends ComplianceRequiremen
 	//M is exchanged from S to R after D
 	public boolean TrazaValida() {
 		// TODO Auto-generated method stub
-		return this.eventos.containsKey("M") && this.eventos.containsKey("D") && LocalDate.now().isAfter(this.date);
-				//this.eventos.get("M").getIndex() < this.date;
+		return this.eventos.containsKey("M") &&  
+				this.eventos.get("M").getTimestamp().after(this.date);
 	}
 }

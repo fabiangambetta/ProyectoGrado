@@ -2,18 +2,20 @@ package ComplianceRequirements;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.deckfour.xes.model.XAttributeMap;
 import org.deckfour.xes.model.XEvent;
+import org.deckfour.xes.model.impl.XAttributeTimestampImpl;
 
 import Model.ComplianceRequirement;
 import Model.ControlConfigurationPropertyValue;
 
 public class ComplianceRequirementInfo {
 	public int interval;
-	public LocalDate date;
+	public Date date;
 	public ComplianceRequirement requerimiento;
 	protected Map<String, XEventConIndex> eventos;
 	protected ArrayList<ControlConfigurationPropertyValue> eventmessageFaltantes;
