@@ -15,6 +15,6 @@ public class ComplianceRequirementInfoMcooccursNwithinI extends ComplianceRequir
 		if(!this.eventos.containsKey("M")) return true;
 		else
 		return this.eventos.containsKey("M") && this.eventos.containsKey("N") && this.eventos.containsKey("I") &&
-				(this.eventos.get("M").getIndex() - this.eventos.get("M").getIndex()) < this.interval;
+				(this.eventos.get("N").getIndex() - this.eventos.get("M").getIndex()) < this.interval;
 	}
 }

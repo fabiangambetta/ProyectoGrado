@@ -1,5 +1,7 @@
 package ComplianceRequirements.Time.PointInTime;
 
+import java.time.LocalDate;
+
 import ComplianceRequirements.ComplianceRequirementInfo;
 import Model.ComplianceRequirement;
 
@@ -11,7 +13,8 @@ public class ComplianceRequirementInfoMoccursbeforeD extends ComplianceRequireme
 	}
 	
 	public boolean TrazaValida() {
-		// TODO Auto-generated method stub
-		return false;
+		// TODO Auto-generated method stub CAMBIAR EL LOCALDATE.NOW
+		return this.eventos.containsKey("M") && this.eventos.containsKey("D") && LocalDate.now().isBefore(this.date);
+
 	}
 }

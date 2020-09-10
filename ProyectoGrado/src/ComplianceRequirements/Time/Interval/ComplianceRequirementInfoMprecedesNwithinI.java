@@ -9,9 +9,10 @@ public class ComplianceRequirementInfoMprecedesNwithinI extends ComplianceRequir
 		super(complianceRequirement);
 		// TODO Auto-generated constructor stub
 	}
-
+	//M is exchanged before N within interval I
 	public boolean TrazaValida() {
 		// TODO Auto-generated method stub
-		return false;
+		return this.eventos.containsKey("M") && this.eventos.containsKey("N") && this.eventos.containsKey("I") &&
+				(this.eventos.get("N").getIndex() - this.eventos.get("M").getIndex()) < this.interval;
 	}
 }

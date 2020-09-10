@@ -1,5 +1,6 @@
 package ComplianceRequirements;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,6 +13,7 @@ import Model.ControlConfigurationPropertyValue;
 
 public class ComplianceRequirementInfo {
 	public int interval;
+	public LocalDate date;
 	public ComplianceRequirement requerimiento;
 	protected Map<String, XEventConIndex> eventos;
 	protected Map<String,ArrayList<ControlConfigurationPropertyValue>> propsFaltantes;

@@ -1,5 +1,7 @@
 package ComplianceRequirements.Time.PointInTime;
 
+import java.time.LocalDate;
+
 import ComplianceRequirements.ComplianceRequirementInfo;
 import Model.ComplianceRequirement;
 
@@ -9,9 +11,9 @@ public class ComplianceRequirementInfoMoccursatD extends ComplianceRequirementIn
 		super(complianceRequirement);
 		// TODO Auto-generated constructor stub
 	}
-
+	//M is exchanged from S to R at D
 	public boolean TrazaValida() {
 		// TODO Auto-generated method stub
-		return false;
+		return LocalDate.now().isEqual(this.date);
 	}
 }
