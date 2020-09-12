@@ -68,12 +68,14 @@ public class ComplianceRequirement {
 		this.complianceobjects = complianceobjects;
 	}
 	
-	public ComplianceRequirement()
+	public ComplianceRequirement(int requirementid, String name, ComplianceControl controlcompliance)
 	{
-		controlcompliance =  new ComplianceControl();
-		complianceobjecttypes = new ArrayList<ComplianceObjectType>();
-		controlconfigurationpropertiesvalue = new ArrayList<ControlConfigurationPropertyValue>();
-		regulations = new ArrayList<Regulation>();
-		complianceobjects = new ArrayList<ComplianceObject>();
+		this.requirementid= requirementid;
+		this.name= name;
+		this.controlcompliance= controlcompliance;
+		this.complianceobjecttypes = new ArrayList<ComplianceObjectType>();
+		this.controlconfigurationpropertiesvalue = new ArrayList<ControlConfigurationPropertyValue>();
+		this.regulations = new ArrayList<Regulation>();
+		this.complianceobjects = new ArrayList<ComplianceObject>();
 	}
 }

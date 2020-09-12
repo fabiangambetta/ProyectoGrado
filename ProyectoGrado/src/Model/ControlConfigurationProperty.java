@@ -20,8 +20,9 @@ public class ControlConfigurationProperty {
 		this.type = type;
 	}
 
-	public ControlConfigurationProperty()
+	public ControlConfigurationProperty(String name, String type)
 	{
-		
+		this.name= name;
+		this.type= type;
 	}
 }

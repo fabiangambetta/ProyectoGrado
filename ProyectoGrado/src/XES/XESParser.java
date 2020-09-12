@@ -32,6 +32,7 @@ public class XESParser {
 		}
 		catch(Exception e) {
 			
+			
 		}
 	}
 }

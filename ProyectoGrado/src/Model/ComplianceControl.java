@@ -40,9 +40,11 @@ public class ComplianceControl {
 		this.complianceobjecttypes = complianceobjecttypes;
 	}
 
-	public ComplianceControl()
+	public ComplianceControl(int controlid, String name)
 	{
-		controlconfigurationproperties = new ArrayList<ControlConfigurationProperty>();
-		complianceobjecttypes = new ArrayList<ComplianceObjectType>();
+		this.controlid= controlid;
+		this.name= name;
+		this.controlconfigurationproperties = new ArrayList<ControlConfigurationProperty>();
+		this.complianceobjecttypes = new ArrayList<ComplianceObjectType>();
 	}
 }

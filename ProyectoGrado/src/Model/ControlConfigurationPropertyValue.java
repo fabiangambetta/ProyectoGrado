@@ -22,8 +22,9 @@ public class ControlConfigurationPropertyValue {
 		this.controlconfigurationproperty = controlconfigurationproperty;
 	}
 
-	public ControlConfigurationPropertyValue()
+	public ControlConfigurationPropertyValue(String value, ControlConfigurationProperty controlconfigurationproperty)
 	{
-		controlconfigurationproperty = new ControlConfigurationProperty();
+		this.value= value;
+		this.controlconfigurationproperty = controlconfigurationproperty;
 	}
 }

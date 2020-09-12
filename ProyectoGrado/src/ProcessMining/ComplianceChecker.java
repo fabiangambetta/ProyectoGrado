@@ -35,7 +35,9 @@ import ComplianceRequirements.Time.Interval.ComplianceRequirementInfoMprecedesNw
 import ComplianceRequirements.Time.PointInTime.ComplianceRequirementInfoMoccursafterD;
 import ComplianceRequirements.Time.PointInTime.ComplianceRequirementInfoMoccursatD;
 import ComplianceRequirements.Time.PointInTime.ComplianceRequirementInfoMoccursbeforeD;
+import Model.CRMLParser;
 import Model.ComplianceControl;
+import Model.ComplianceModel;
 import Model.ComplianceObject;
 import Model.ComplianceRequirement;
 import Model.ControlConfigurationProperty;
@@ -46,13 +48,13 @@ public class ComplianceChecker {
 	public static void main(String[] args) {
 		Map<String, ArrayList<ComplianceRequirementInfo>> objetoRequerimiento = new HashMap<String, ArrayList<ComplianceRequirementInfo>>();
 		Map<ComplianceRequirement, ArrayList<XTrace>> trazasViolatorias = new HashMap<ComplianceRequirement, ArrayList<XTrace>>();
-		ArrayList<ComplianceRequirement> requerimientos = CreateMockComplianceRequirements();
+		ComplianceModel model= CRMLParser.ParseComplianceModel("modelFinal3 - M mutex choice N.crml");
+		ArrayList<ComplianceRequirement> requerimientos = model.getRequirements();
 		ArrayList<ComplianceRequirementInfo> requerimientsInfo = new ArrayList<ComplianceRequirementInfo>();
 		for (int i = 0; i < requerimientos.size(); i++) {
 			ComplianceRequirementInfo cri = CreateComplianceRequirementInfo(requerimientos.get(i));
 			requerimientsInfo.add(cri);
 			for (int j = 0; j < requerimientos.get(i).getControlconfigurationpropertiesvalue().size(); j++) {
-
 				ControlConfigurationPropertyValue prop = requerimientos.get(i).getControlconfigurationpropertiesvalue().get(j);
 				if(prop.getControlconfigurationproperty().getName().contains("Message"))
 				{
@@ -99,7 +101,7 @@ public class ComplianceChecker {
 		}
 
 	}
-
+/*
 	private static ArrayList<ComplianceRequirement> CreateMockComplianceRequirements() {
 		ArrayList<ComplianceRequirement> reqs = new ArrayList<ComplianceRequirement>();
 		reqs.add(CreateMockComplianceRequirement("Get Available Dates AGESIC", "Get Available Dates DNIC", "AGESIC",
@@ -110,12 +112,13 @@ public class ComplianceChecker {
 				"DNIC", "DNIC", "AGESIC", "M exclusive N"));
 		return reqs;
 	}
+	
 
 	private static ComplianceRequirement CreateMockComplianceRequirement(String m, String n, String senderm,
 			String sendern, String receiverm, String receivern, String control) {
 		ComplianceRequirement req = new ComplianceRequirement();
 		ArrayList<ComplianceObject> objetosAsociados = new ArrayList<ComplianceObject>();
-		ComplianceObject o = new ComplianceObject();
+		ComplianceObject o = new ComplianceObject(0,m,);
 		o.setName(m);
 		objetosAsociados.add(o);
 		o = new ComplianceObject();
@@ -165,7 +168,7 @@ public class ComplianceChecker {
 		req.setControlconfigurationpropertiesvalue(controlconfigurationpropertiesvalue);
 		return req;
 	}
-
+*/
 	private static ComplianceRequirementInfo CreateComplianceRequirementInfo(
 			ComplianceRequirement complianceRequirement) {
 		switch (complianceRequirement.getControlcompliance().getName()) {
